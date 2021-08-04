@@ -40,9 +40,9 @@ class AuthController extends Controller
  
         if (auth()->attempt($data)) {
             $token = auth()->user()->createToken('lfmAuthApp')->accessToken;
-            return response()->json(['token' => $token], 200);
+            return response()->json(['status' => true, 'message' => ['token' => $token]], 200);
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json(['status' => false, 'message' => 'Invalid credentials'], 200);
         }
     }
 }
