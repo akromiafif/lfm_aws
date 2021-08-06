@@ -74,7 +74,7 @@ class AuthController extends Controller
             $user = User::where('email', $data['email'])->first();
 
             $token = auth()->user()->createToken('lfmAuthApp')->accessToken;
-            return response()->json(['status' => true, 'message' => ['email' => $user['email'], 'token' => $token]], 200);
+            return response()->json(['status' => true, 'message' => ['email' => $user['email'], 'nama' => $user['nama'], 'token' => $token]], 200);
         } else {
             return response()->json(['status' => false, 'message' => 'Invalid credentials'], 200);
         }
