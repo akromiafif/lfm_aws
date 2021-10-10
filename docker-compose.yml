@@ -17,17 +17,17 @@ services:
       - 80:80
       - 443:443
     networks:
-      - apep
+      - padli
 
-  # certbot:
-  #   image: certbot/certbot:latest
-  #   command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email pasargm@gmail.com --agree-tos --no-eff-email -d api-beken.sikode.my.id
-  #   volumes:
-  #     - ./certbot/conf/:/etc/letsencrypt
-  #     - ./certbot/logs/:/var/log/letsencrypt
-  #     - ./certbot/data:/usr/share/nginx/html/letsencrypt
-  #   depends_on:
-  #     - web-server
+  certbot:
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email socakromiafif@gmail.com --agree-tos --no-eff-email -d backend.ganffest2022.xyz
+    volumes:
+      - ./certbot/conf/:/etc/letsencrypt
+      - ./certbot/logs/:/var/log/letsencrypt
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+    depends_on:
+      - web-server
 
   app:
     container_name: lfm_laravel
@@ -40,7 +40,7 @@ services:
       - ./lfm_backend:/var/www
     working_dir: /var/www
     networks:
-      - apep
+      - padli
 
   db:
     container_name: lfm_database
@@ -57,7 +57,7 @@ services:
       - padli
 
 networks:
-  apep:
+  padli:
     driver: bridge
 
 volumes:
