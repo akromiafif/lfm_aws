@@ -23,5 +23,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::get('profile/{email}', [UserController::class, 'user']);
 Route::get('/send-email/{email}', [MailController::class, 'sendEmail'])->middleware('cors');
+Route::get('profile/{email}', [UserController::class, 'user']);
