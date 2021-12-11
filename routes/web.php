@@ -23,4 +23,4 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Route::get('/send-email/{email}', [MailController::class, 'sendEmail']);
+Route::get('/send-email/{email}', [MailController::class, 'sendEmail'])->middleware('cors');;
