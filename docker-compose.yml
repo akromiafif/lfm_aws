@@ -1,0 +1,65 @@
+version: "3.7"
+
+services:
+  web-server:
+    container_name: lfm_nginx
+    image: nginx:alpine
+    depends_on:
+      - app
+    volumes:
+      - ./lfm_backend:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/var/www/le/letsencrypt
+      - ./dhparam:/etc/nginx/dhparam
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - padli
+
+  certbot:
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email socakromiafif@gmail.com --agree-tos --no-eff-email -d backend.ganffest2022.xyz
+    volumes:
+      - ./certbot/conf/:/etc/letsencrypt
+      - ./certbot/logs/:/var/log/letsencrypt
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+    depends_on:
+      - web-server
+
+  app:
+    container_name: lfm_laravel
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./lfm_backend:/var/www
+    working_dir: /var/www
+    networks:
+      - padli
+
+  db:
+    container_name: lfm_database
+    image: mysql:5.7
+    ports:
+      - 3500:3306
+    volumes:
+      - dbvolume:/var/lib/mysql/
+    #      - ./docker-volumes-data/db:/etc/mysql/my.cnf
+    environment:
+      MYSQL_DATABASE: lfm_festival
+      MYSQL_ROOT_PASSWORD: padlicoli
+    networks:
+      - padli
+
+networks:
+  padli:
+    driver: bridge
+
+volumes:
+  dbvolume:
+    driver: local
