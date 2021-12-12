@@ -14,7 +14,7 @@ services:
             - ./dhparam:/etc/nginx/dhparam
         restart: unless-stopped
         ports:
-            - 9000:80
+            - 80:80
             - 443:443
         networks:
             - padli
@@ -46,7 +46,7 @@ services:
         container_name: lfm_database
         image: mysql:5.7
         ports:
-            - 3501:3306
+            - 3500:3306
         volumes:
             - dbvolume:/var/lib/mysql/
         #      - ./docker-volumes-data/db:/etc/mysql/my.cnf
